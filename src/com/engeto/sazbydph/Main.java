@@ -2,6 +2,7 @@ package com.engeto.sazbydph;
 
 public class Main {
     public static final String INPUT_FILE = "vat-eu.txt";
+    public static final String OUTPUT_FILE = "vat-over-20.txt";
 
     public static void main(String[] args) {
 
@@ -12,9 +13,13 @@ public class Main {
             System.err.println(e.getLocalizedMessage());
         }
 
-        for (int i = 0; i < countryList.size(); i++) {
-            System.out.println(countryList.getCountry(i).outputString());
-        }
+        // countryList.printCountryList();
+
+        // countryList.printVatAbove20SpecialVatNotUsed();
+
+        countryList.printSortedCountries();
+
+        countryList.exportToFile(OUTPUT_FILE);
 
     }
 }

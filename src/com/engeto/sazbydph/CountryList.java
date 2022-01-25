@@ -1,9 +1,8 @@
 package com.engeto.sazbydph;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class CountryList {
@@ -42,6 +41,61 @@ public class CountryList {
             }
         } catch (FileNotFoundException e) {
             throw new CountryException("Vstupní soubor: "+fileName+" nebyl nalezen: "+e.getLocalizedMessage());
+        }
+    }
+
+    public void printCountryList() {
+        for (Country country: countryList) {
+            System.out.println(country.outputString());
+        }
+    }
+
+    public void printVatAbove20SpecialVatNotUsed() {
+        for (Country country: countryList) {
+            if (country.getVat() > 20 && !country.specialVatUsed) {
+                System.out.println(country.outputString());
+            }
+        }
+    }
+
+    public void printSortedCountries() {
+        Collections.sort(this.countryList, new CountryComparator().reversed());
+        for (Country country: countryList) {
+            if (country.getVat() > 20 && !country.specialVatUsed) {
+                System.out.println(country.outputString());
+            }
+        }
+        System.out.print("====================\nSazba VAT 20 % nebo nižší nebo používají speciální sazbu: ");
+        for (Country country: countryList) {
+            if (country.getVat() <= 20 || country.isSpecialVatUsed()) {
+                if (countryList.indexOf(country) + 1 == countryList.size()) {
+                    System.out.print(country.getAbb());
+                } else {
+                    System.out.print(country.getAbb()+", ");
+                }
+            }
+        }
+    }
+
+    public void exportToFile(String fileName) {
+        try (PrintWriter writer = new PrintWriter(fileName)) {
+            for (Country country: countryList) {
+                if (country.getVat() > 20 && !country.specialVatUsed) {
+                    writer.println(country.outputString());
+                }
+            }
+            writer.print("====================\nSazba VAT 20 % nebo nižší nebo používají speciální sazbu: ");
+            for (Country country: countryList) {
+                if (country.getVat() <= 20 || country.isSpecialVatUsed()) {
+                    if (countryList.indexOf(country) + 1 == countryList.size()) {
+                        writer.print(country.getAbb());
+                    } else {
+                        writer.print(country.getAbb()+", ");
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

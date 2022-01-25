@@ -1,14 +1,16 @@
 package com.engeto.sazbydph;
 
+import java.math.BigDecimal;
+
 public class Country {
 
     String abb;
     String name;
-    double vat;
-    double loweredVat;
+    Double vat;
+    Double loweredVat;
     boolean specialVatUsed;
 
-    public Country(String abb, String name, double vat, double loweredVat, boolean specialVatUsed) {
+    public Country(String abb, String name, Double vat, Double loweredVat, boolean specialVatUsed) {
         this.abb = abb;
         this.name = name;
         this.vat = vat;
@@ -25,10 +27,10 @@ public class Country {
         String abb = items[0];
         String name = items[1];
         try {
-            if (items[2].contains(",")) items[2] = items[2].replace(",", ".");
-            if (items[3].contains(",")) items[3] = items[3].replace(",", ".");
-            double vat = Double.parseDouble(items[2]);
-            double loweredVat = Double.parseDouble(items[2]);
+            items[2] = items[2].replace(",", ".");
+            items[3] = items[3].replace(",", ".");
+            Double vat = Double.parseDouble(items[2]);
+            Double loweredVat = Double.parseDouble(items[2]);
             boolean specialVatUsed;
             if (items[4].equals("true")) specialVatUsed = true;
             else if (items[4].equals("false")) specialVatUsed = false;
@@ -57,7 +59,7 @@ public class Country {
         this.name = name;
     }
 
-    public double getVat() {
+    public Double getVat() {
         return vat;
     }
 
@@ -65,7 +67,7 @@ public class Country {
         this.vat = vat;
     }
 
-    public double getLoweredVat() {
+    public Double getLoweredVat() {
         return loweredVat;
     }
 
