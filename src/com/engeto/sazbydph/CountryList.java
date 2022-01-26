@@ -46,15 +46,7 @@ public class CountryList {
 
     public void printCountryList() {
         for (Country country: countryList) {
-            System.out.println(country.outputString());
-        }
-    }
-
-    public void printVatAbove20SpecialVatNotUsed() {
-        for (Country country: countryList) {
-            if (country.getVat() > 20 && !country.specialVatUsed) {
-                System.out.println(country.outputString());
-            }
+            System.out.println(country.outputStringBase());
         }
     }
 
@@ -69,7 +61,26 @@ public class CountryList {
         for (Country country: countryList) {
             if (country.getVat() <= 20 || country.isSpecialVatUsed()) {
                 if (countryList.indexOf(country) + 1 == countryList.size()) {
-                    System.out.print(country.getAbb());
+                    System.out.println(country.getAbb());
+                } else {
+                    System.out.print(country.getAbb()+", ");
+                }
+            }
+        }
+    }
+
+    public void printSortedCustom(int customVat) {
+        Collections.sort(this.countryList, new CountryComparator().reversed());
+        for (Country country: countryList) {
+            if (country.getVat() > customVat && !country.specialVatUsed) {
+                System.out.println(country.outputString());
+            }
+        }
+        System.out.print("====================\nSazba VAT "+customVat+" % nebo nižší nebo používají speciální sazbu: ");
+        for (Country country: countryList) {
+            if (country.getVat() <= customVat || country.isSpecialVatUsed()) {
+                if (countryList.indexOf(country) + 1 == countryList.size()) {
+                    System.out.println(country.getAbb());
                 } else {
                     System.out.print(country.getAbb()+", ");
                 }
@@ -87,6 +98,29 @@ public class CountryList {
             writer.print("====================\nSazba VAT 20 % nebo nižší nebo používají speciální sazbu: ");
             for (Country country: countryList) {
                 if (country.getVat() <= 20 || country.isSpecialVatUsed()) {
+                    if (countryList.indexOf(country) + 1 == countryList.size()) {
+                        writer.print(country.getAbb());
+                    } else {
+                        writer.print(country.getAbb()+", ");
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exportToFileCustom(int customVat) {
+        File file = new File("vat-over-"+customVat+".txt");
+        try (PrintWriter writer = new PrintWriter(file)) {
+            for (Country country: countryList) {
+                if (country.getVat() > customVat && !country.specialVatUsed) {
+                    writer.println(country.outputString());
+                }
+            }
+            writer.print("====================\nSazba VAT "+customVat+" % nebo nižší nebo používají speciální sazbu: ");
+            for (Country country: countryList) {
+                if (country.getVat() <= customVat || country.isSpecialVatUsed()) {
                     if (countryList.indexOf(country) + 1 == countryList.size()) {
                         writer.print(country.getAbb());
                     } else {

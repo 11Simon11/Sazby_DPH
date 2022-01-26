@@ -15,11 +15,16 @@ public class Main {
 
         // countryList.printCountryList();
 
-        // countryList.printVatAbove20SpecialVatNotUsed();
-
         countryList.printSortedCountries();
 
         countryList.exportToFile(OUTPUT_FILE);
+
+        System.out.println("\nZadej vlastní hodnotu DPH pro rozdělení zemí: ");
+        int input = KeyboardInput.safeReadInt();
+
+        countryList.printSortedCustom(input);
+
+        countryList.exportToFileCustom(input);
 
     }
 }

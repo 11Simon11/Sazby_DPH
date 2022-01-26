@@ -30,7 +30,7 @@ public class Country {
             items[2] = items[2].replace(",", ".");
             items[3] = items[3].replace(",", ".");
             Double vat = Double.parseDouble(items[2]);
-            Double loweredVat = Double.parseDouble(items[2]);
+            Double loweredVat = Double.parseDouble(items[3]);
             boolean specialVatUsed;
             if (items[4].equals("true")) specialVatUsed = true;
             else if (items[4].equals("false")) specialVatUsed = false;
@@ -39,8 +39,12 @@ public class Country {
         } catch (NumberFormatException e) { throw new CountryException("Špatný formát čísla na řádku: \""+text+"\"\n\t"+e.getLocalizedMessage()); }
     }
 
-    public String outputString() {
+    public String outputStringBase() {
         return getName()+" ("+getAbb()+"): "+Math.round(getVat())+" %";
+    }
+
+    public String outputString() {
+        return getName()+" ("+getAbb()+"): "+Math.round(getVat())+" % ("+Math.round(getLoweredVat())+" %)";
     }
 
     public String getAbb() {
